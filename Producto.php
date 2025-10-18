@@ -59,5 +59,12 @@ if ( isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['lang']) ) {
     $db->cerrarConexion();
     ?>
 
+    <hr>
+<a href="?id=<?php echo $producto['idProducto']; ?>" class="añadir_al_carrito_btn">
+    Añadir al Carrito
+</a>
+
+
+
 </body>
 </html>
