@@ -5,6 +5,14 @@ if(!isset($_SESSION['nombre']) || !isset($_SESSION["clave"])){
  header("Location:Login.php");    
 }
 
+if(isset($_COOKIE["c_idioma"])){
+    $idioma_actual = $_COOKIE["c_idioma"];
+}elseif (isset($_GET["idioma"])){
+    $idioma_actual = $_GET["idioma"]??'es';
+}else if(isset($_POST["idioma"])){
+$idioma_actual = $_POST["idioma"]??'es';
+}
+
 //Si se envio un producto desde producto.php Este producto se manda como POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idProducto'])) {
     $producto = [
@@ -21,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idProducto'])) {
     // Agregamos el producto al carrito
     $_SESSION['carrito'][] = $producto;
      //Redirigir al mismo archivo (evita reenvío del formulario)
-    header("Location: CarroCompra.php");
+    header("Location: CarroCompra.php?idioma=" . $idioma_actual);    
     exit;
 }
 
@@ -40,14 +48,14 @@ if (isset($_GET['vaciar'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?php echo $idioma_actual; ?>">
 <head>
     <meta charset="UTF-8">
     <title>Carrito de Compras</title>
 </head>
 <body>
     <h1>Carrito de Compras</h1>
-    <p><a href="PanelPrincipal.php">Panel Principal</a> |  
+    <p><a href="PanelPrincipal.php?idioma=<?php echo $idioma_actual; ?>">Panel Principal</a> |  
        <a href="CerrarSesion.php">Cerrar Sesión</a></p>
     <hr>
 
@@ -66,7 +74,7 @@ if (isset($_GET['vaciar'])) {
             echo "</li>";
         }
         echo "</ul>";
-        echo "<a href='?vaciar=1'>Vaciar carrito</a>";
+        echo "<a href='?vaciar=1&idioma=$idioma_actual'>Vaciar carrito</a>";
     }
     ?>
 </body>

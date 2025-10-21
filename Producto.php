@@ -1,4 +1,9 @@
 <?php
+// Validacion del inicio de sesion
+session_start();
+if(!isset($_SESSION['nombre']) || !isset($_SESSION["clave"])){
+ header("Location:Login.php");    
+}
 // 1. Incluimos el archivo que contiene la CLASE
 require_once 'ConexionBDD.php';
 
@@ -7,17 +12,21 @@ require_once 'ConexionBDD.php';
 $db = new ConexionBDD(); 
 
 $producto = null; // Variable para guardar el producto encontrado
-$idioma_actual = $_GET['lang'] ?? 'es'; // Guardamos el idioma para el link "Volver"
+
+if(isset($_COOKIE["c_idioma"])){
+    $idioma_actual = $_COOKIE["c_idioma"];
+}else{
+$idioma_actual = $_GET["idioma"]??'es';
+}
 
 // 3. Verificamos que tengamos un ID y un Idioma en la URL
-if ( isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['lang']) ) {
+if ( isset($_GET['id']) && is_numeric($_GET['id']) ) {
     
     $id_producto = $_GET['id'];
-    $idioma_url = $_GET['lang'];
     
     // 4. LLAMAMOS AL MÉTODO para buscar UN producto
     // (Asegúrate de haber corregido este método en tu clase)
-    $producto = $db->leerProductosPorId($id_producto, $idioma_url);
+    $producto = $db->leerProductosPorId($id_producto, $idioma_actual);
 }
 ?>
 
@@ -28,10 +37,11 @@ if ( isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['lang']) ) {
     <title>Detalle del Producto</title>
 </head>
 <body>
+    <p>
+    <a href="PanelPrincipal.php?idioma=<?php echo $idioma_actual; ?>">
+         &laquo; Volver a la lista</a> | 
+    <a href="CerrarSesion.php">Cerrar Sesión</a></p>
 
-    <a href="PanelPrincipal.php?lang=<?php echo $idioma_actual; ?>">
-        &laquo; Volver a la lista
-    </a>
     <hr>
 
     <?php
@@ -65,8 +75,12 @@ if ( isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['lang']) ) {
        <input type="hidden" name="idProducto" value="<?php echo $producto['idProducto']; ?>">
        <input type="hidden" name="nombreProducto" value="<?php echo $producto['nombreProducto']; ?>">
        <input type="hidden" name="enlaceFoto" value="<?php echo $producto['enlaceFoto']; ?>">
+       <input type="hidden" name="idioma" value="<?php echo $_GET['idioma']; ?>">
        <button type="submit">Añadir al Carrito 🛒</button>
     </form>
+    <br>
+    <a href="CarroCompra.php?idioma=<?php echo $idioma_actual; ?>">Ver Carrito</a>
+    
 
 </body>
 </html>

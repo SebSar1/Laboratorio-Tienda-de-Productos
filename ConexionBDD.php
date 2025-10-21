@@ -1,10 +1,19 @@
 <?php
+// Validacion del inicio de sesion
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if(!isset($_SESSION['nombre']) || !isset($_SESSION["clave"])){
+ header("Location:Login.php");    
+}
 class ConexionBDD {
     private $host = 'localhost';
     private $usuario = 'root';
     private $clave = '';
     private $baseDeDatos = 'tienda';
      private $conexion;
+
+     
         public function __construct() {
         $this->conexion = new mysqli(
             $this->host,

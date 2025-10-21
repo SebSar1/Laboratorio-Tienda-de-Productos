@@ -1,5 +1,6 @@
 <?php
 $recuerdame = $nombre = $clave = false;
+$idioma_actual;
 
 if ( isset( $_COOKIE["c_recordarme"]) && $_COOKIE["c_recordarme"]){
     $recuerdame = true;
