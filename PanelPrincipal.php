@@ -5,6 +5,9 @@ session_start();
 // 1. Incluimos el archivo que contiene la CLASE
 require_once 'ConexionBDD.php';
 
+if(!isset($_SESSION['nombre']) || !isset($_SESSION["clave"])){
+    header("Location:Login.php");    
+}
 // 2. CREAMOS UN OBJETO (instancia) de la clase
 // Al hacer "new", se ejecuta el __construct() y se conecta a la BDD
 $db = new ConexionBDD(); 
@@ -27,19 +30,29 @@ if (isset($_COOKIE["c_recordarme"]) && $_COOKIE["c_recordarme"]){
     setcookie("c_idioma", $idioma_actual, 0);
 }
 
-
-
-
 ?>
 
-<p>
-    <a href="PanelPrincipal.php?idioma=es">Español</a> | 
-    <a href="PanelPrincipal.php?idioma=en">English</a>
-</p>
-<hr>
+<!DOCTYPE html>
+<html lang="<?php echo $idioma_actual; ?>">
+<head>
+    <meta charset="UTF-8">
+    <title>PANEL PRINCIPAL</title>
+</head>
+<body>
+    <h1>PANEL PRINCIPAL</h1>
+    <h3>Bienvenido Usuario: <?php echo htmlspecialchars($_SESSION['nombre']); ?></h3>
+    <p>
+        <a href="PanelPrincipal.php?idioma=es">ES (Español)</a> | 
+        <a href="PanelPrincipal.php?idioma=en">EN (English)</a>
+    </p>
+
+    <p>
+        <a href="CerrarSesion.php">Cerrar Sesión</a>  |  
+        <a href="CarroCompra.php?idioma=<?php echo $idioma_actual; ?>">Ver Carrito</a>      
+    <hr>
 
 <?php
-// 4. LLAMAMOS AL MÉTODO de nuestro objeto $db
+// LLAMAMOS AL MÉTODO de nuestro objeto $db
 // (Antes era: leerProductos($idioma_actual);)
 $listaDeProductos = $db->leerProductos($idioma_actual);
     
@@ -48,12 +61,16 @@ $listaDeProductos = $db->leerProductos($idioma_actual);
 if (empty($listaDeProductos)) {
     echo "<p>No hay productos para mostrar.</p>";
 } else {
+    // Lógica para el título dinámico (Lista de Productos / Product List)
+    $titulo_listaProductos = ($idioma_actual === 'es') ? 'Lista de Productos' : 'Product List';
+    echo "<h2>$titulo_listaProductos</h2>";
+
     echo "<ul>";
     foreach ($listaDeProductos as $producto) {
         // Pasamos el ID y el idioma al detalle
         echo "<li>";
         echo "<a href='Producto.php?id=" . $producto['idProducto']."&idioma=" . $idioma_actual . "'>";
-        echo $producto['nombreProducto'];
+        echo $producto['nombreProducto'] . ",";
         echo "</a>";
         echo "</li>";
     }
@@ -63,5 +80,6 @@ if (empty($listaDeProductos)) {
 $db->cerrarConexion();
 
 ?>
-<hr>
-    <a href="CerrarSesion.php">Cerrar Sesión</a> | <a href="CarroCompra.php?idioma=<?php echo $idioma_actual; ?>">Ver Carrito</a>
+
+</body>
+</html>
