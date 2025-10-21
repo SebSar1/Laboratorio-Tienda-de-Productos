@@ -60,11 +60,13 @@ if ( isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['lang']) ) {
     ?>
 
     <hr>
-<a href="?id=<?php echo $producto['idProducto']; ?>" class="añadir_al_carrito_btn">
-    Añadir al Carrito
-</a>
 
-
+    <form action="CarroCompra.php" method="post">
+       <input type="hidden" name="idProducto" value="<?php echo $producto['idProducto']; ?>">
+       <input type="hidden" name="nombreProducto" value="<?php echo $producto['nombreProducto']; ?>">
+       <input type="hidden" name="enlaceFoto" value="<?php echo $producto['enlaceFoto']; ?>">
+       <button type="submit">Añadir al Carrito 🛒</button>
+    </form>
 
 </body>
 </html>
