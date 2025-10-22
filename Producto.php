@@ -75,8 +75,9 @@ if ( isset($_GET['id']) && is_numeric($_GET['id']) ) {
        <input type="hidden" name="idProducto" value="<?php echo $producto['idProducto']; ?>">
        <input type="hidden" name="nombreProducto" value="<?php echo $producto['nombreProducto']; ?>">
        <input type="hidden" name="enlaceFoto" value="<?php echo $producto['enlaceFoto']; ?>">
+       <input type="hidden" name="precioProducto" value="<?php echo $producto['precioProducto']; ?>">
        <input type="hidden" name="idioma" value="<?php echo $_GET['idioma']; ?>">
-       <button type="submit">Añadir al Carrito 🛒</button>
+       <button type="submit">Añadir al Carrito</button>
     </form>
     <br>
     <a href="CarroCompra.php?idioma=<?php echo $idioma_actual; ?>">Ver Carrito</a>

@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idProducto'])) {
     $producto = [
         'id' => $_POST['idProducto'],
         'nombre' => $_POST['nombreProducto'],
-        'imagen' => $_POST['enlaceFoto']
+        'imagen' => $_POST['enlaceFoto'],
+        'precio' => (float) $_POST['precioProducto']
     ];
 
     // Si no existe el carrito, lo creamos
@@ -55,6 +56,7 @@ if (isset($_GET['vaciar'])) {
 </head>
 <body>
     <h1>Carrito de Compras</h1>
+    <h3>Bienvenido Usuario: <?php echo htmlspecialchars($_SESSION['nombre']); ?></h3>
     <p><a href="PanelPrincipal.php?idioma=<?php echo $idioma_actual; ?>">Panel Principal</a> |  
        <a href="CerrarSesion.php">Cerrar Sesión</a></p>
     <hr>
@@ -62,6 +64,8 @@ if (isset($_GET['vaciar'])) {
     <?php
     
     // Mostrar el carrito
+
+
     if (empty($_SESSION['carrito'])) {
         echo "<p>Tu carrito está vacío</p>";
     } else {
@@ -70,6 +74,7 @@ if (isset($_GET['vaciar'])) {
             echo "<li>";
             echo "<img src='" . $producto['imagen'] . "' width='60' alt=''>";
             echo " " . htmlspecialchars($producto['nombre']);
+            echo "<td>$" . number_format($producto['precio'], 2) . "</td>";
             echo " <a href='?eliminar=$indice'>(Eliminar)</a>";
             echo "</li>";
         }
