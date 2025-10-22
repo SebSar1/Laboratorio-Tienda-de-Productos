@@ -19,9 +19,9 @@ if ( isset( $_COOKIE["c_recordarme"]) && $_COOKIE["c_recordarme"]){
     <form action="Acceso.php" method="POST">
         <fieldset>
             Usuario: <br>
-            <input type="text" name="nombre" value="<?php echo $nombre;?>"/><br>
+            <input type="text" name="nombre" value="<?php echo $nombre;?>"required/><br>
             Clave: <br>
-            <input type="password" name="clave" value="<?php echo $clave?>"/><br>
+            <input type="password" name="clave" value="<?php echo $clave?>"required/><br>
             <input type="checkbox" name="chkRecordarme" <?php echo ($recuerdame)?"checked":""  ?>>Recordar mis datos
             <br>
             <br>

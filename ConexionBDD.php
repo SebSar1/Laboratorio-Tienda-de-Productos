@@ -110,7 +110,7 @@ class ConexionBDD {
     public function leerProductosPorId($id, $idioma) {
         $tabla = $this->getTablaPorIdioma($idioma); // <--Obtiene el nombre seguro de la tabla
 
-        $query = "SELECT  idProducto, nombreProducto, enlaceFoto FROM $tabla WHERE idProducto = ?"; //pregunta a bdd
+        $query = "SELECT  * FROM $tabla WHERE idProducto = ?"; //pregunta a bdd
         $sentencia = $this->conexion->prepare($query);
         $sentencia->bind_param("i", $id);
     

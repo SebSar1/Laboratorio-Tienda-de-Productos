@@ -47,23 +47,23 @@ if ( isset($_GET['id']) && is_numeric($_GET['id']) ) {
     <?php
     // 6. Verificamos si la función encontró el producto
     if ($producto !== null) {
-        
-        // ¡SÍ! Mostramos el nombre...
-        echo "<h1>" . $producto['nombreProducto'] . "</h1>";
-        echo "<p>ID de referencia: " . $producto['idProducto'] . "</p>";
-        
-        // ...y aquí cargamos la IMAGEN (no el enlace)
-        echo "<img 
-                src='" . $producto['enlaceFoto'] . "' 
-                alt='Imagen de " . $producto['nombreProducto'] . "' 
-                width='300' 
-              >";
-        
-    } else {
-        // No... (sea porque no hay ID o el ID no existe)
-        echo "<h1>Producto no encontrado</h1>";
-        echo "<p>El ID solicitado no existe o no se especificó un idioma.</p>";
-    }
+    
+    echo "<h1>" . htmlspecialchars($producto['nombreProducto']) . "</h1>";
+    echo "<h2>Precio: $" . htmlspecialchars($producto['precioProducto']) . "</h2>"; 
+    echo "<p><strong>Descripción:</strong> " . htmlspecialchars($producto['descripcionProducto']) . "</p>";
+    echo "<p>ID de referencia: " . htmlspecialchars($producto['idProducto']) . "</p>";
+    
+    echo "<img 
+            src='" . htmlspecialchars($producto['enlaceFoto']) . "' 
+            alt='Imagen de " . htmlspecialchars($producto['nombreProducto']) . "' 
+            width='300' 
+          >";
+    
+} else {
+    // No... (sea porque no hay ID o el ID no existe)
+    echo "<h1>Producto no encontrado</h1>";
+    echo "<p>El ID solicitado no existe o no se especificó un idioma.</p>";
+}
     
     // 7. Cerramos la conexión
     $db->cerrarConexion();
